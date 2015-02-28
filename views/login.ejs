@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" href="/css/formstyle.css">
+	<script type='text/javascript' src='/javascript/jquery.js'></script>
+	<script type='text/javascript' src='/javascript/animate.js'></script> 
+</head>
+<body>
+<div id="parent">
+	<div>
+
+		<h1>Login</h1>
+
+		<% if (message.length > 0) { %>
+			<div class="message"><%= message %></div>
+		<% } %>
+
+		<form action="/login" method="post">
+			<div class="formCont">
+				<label>Username</label>
+				<input type="text" name="username">
+			</div>
+			<div class="formCont">
+				<label>Password</label>
+				<input type="password" name="password">
+			</div>
+			<button type="submit" class="button">Login</button>
+		</form>
+
+	</div>
+	<p><br><br><br></p>
+	<p>Don't have an account? <a href="/signup">Sign Up</a></p>
+	<p>Oops? <a href="/">Launch Page</a></p>
+</div>
+
+</body>
+</html>

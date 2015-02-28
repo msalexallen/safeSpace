@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+	<title>Create Note</title>
+	<link rel="stylesheet" href="/css/formstyle.css">
+	<script type='text/javascript' src='/javascript/jquery.js'></script>
+	<script type='text/javascript' src='/javascript/animate.js'></script> 
+</head>
+<body>
+<div id="parent">
+	<div>
+
+		<h1>Create Note</h1>
+		<form action="/createnote" method="post">
+			<div class="formCont">
+				<label>Note Name</label>
+				<input type="text" name="username">
+			</div>
+			<div class="secret">
+				<label>Password</label>
+				<input type="password" name="password" value="aaa">
+			</div>
+			<button type="submit" class="button">Start!</button>
+		</form>
+
+	</div>
+	<p><br><br><br></p>
+	<p>Nevermind? <a href="/dashboard">Dashboard</a></p>
+</div>
+
+</body>
+</html>

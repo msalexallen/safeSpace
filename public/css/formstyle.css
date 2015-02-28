@@ -1,0 +1,112 @@
+body{
+	padding: 5%, 5%, 5%, 5%;
+}
+
+h1{
+	text-align: left;
+	color: #696969;
+	font-size: 50px;
+	font-weight: 900;
+	font-family: sans-serif;
+}
+
+h3 {
+	text-align: center;
+	color: #8c8c8c;
+	font-size: 20px;
+	font-weight: 400;
+	font-family: sans-serif;
+	font-style: italic;
+}
+
+p{
+	text-align: left;
+	color: #8c8c8c;
+	font-size: 14px;
+	font-weight: 500;
+	font-family: sans-serif;
+}
+
+img{
+	display: none;
+}
+
+label{
+	margin-bottom: 1%;
+}
+
+input{
+	width:90%;
+	height:30px;
+	outline: none;
+	font-size: 14px;
+}
+
+#parent{
+	margin-left: auto;
+    margin-right: auto;
+	border-radius: 5px;
+	border: 5px solid gray;
+	padding-left: 5%;
+	width: 90%;
+}
+
+.formCont{
+	font-size: 14px;
+	font-weight: 500;
+	font-family: sans-serif;
+	padding: 5px 5px 5px 5px;
+}
+
+.message {
+	border-radius: 7px;
+	border: 2px solid #E32636;
+	background-color: #F6C9CC;
+	font-size: 14px;
+	height: 20px;
+	width: 90%;
+	padding: 5px 5px 5px 5px;
+	text-align: left;
+	margin-bottom: 1%;
+	color: #E32636;
+	font-family: sans-serif;
+}
+
+.button {
+	border-radius: 5px;
+	border: 5px solid gray;
+	background-color: gray;
+	font-size: 20px;
+	height: 50px;
+	width:100px;
+	padding: 5px 5px 5px 5px;
+	/*width: 120px;*/
+	text-align: center;
+	overflow: hidden;
+	float: left;
+	margin-top: 3%;
+	margin-left: 70%;
+	text-decoration: none;
+	color: #e0e0e0;
+	font-family: sans-serif;
+	outline: none;
+	box-shadow: none;
+}
+
+.secret {
+	display: none;
+}
+
+#tempCanvas {
+	position: absolute;
+	left: 0px; right: 0px;
+	bottom: 0px; top: 0px;
+	cursor: crosshair;
+}
+
+#canvasDiv {
+	height: 100%;
+	width: 90%;
+	border: 10px solid gray;
+	position: absolute;
+}

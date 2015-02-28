@@ -1,0 +1,161 @@
+body{
+	overflow: auto;
+	background-color: #f0f0f0;
+}
+
+h1{
+	text-align: center;
+	color: #696969;
+	font-size: 50px;
+	font-family: sans-serif;
+}
+
+a{
+	text-decoration: none;
+}
+
+h3 {
+	text-align: center;
+	color: #696969;
+	font-size: 20px;
+	font-family: Arial, sans-serif;
+	font-style:italic;
+}
+
+div {
+	height: 44px;
+	width: 44px;
+	position: relative;
+}
+
+#container {
+	float: right;
+	width:8%;
+	z-index: 100;
+	cursor: default;
+}
+
+#holder1 {
+	float: left;
+}
+
+#holder2 {
+	float: right;
+}
+
+#canvasButtons{
+	display: none;
+}
+
+#blackButton {
+	background-color: #000000;
+	border: 1px solid white;
+}
+
+#brownButton {
+	background-color: #311e0c;
+	border: 1px solid white;
+}
+
+#redButton {
+	background-color: #ff0000;
+	border: 1px solid white;
+}
+
+#orangeButton {
+	background-color: #ffa500;
+	border: 1px solid white;
+}
+
+#yellowButton {
+	background-color: yellow;
+	border: 1px solid white;
+}
+
+#greenButton {
+	background-color: green;
+	border: 1px solid white;
+}
+
+#blueButton {
+	background-color: blue;
+	border: 1px solid white;
+}
+
+#purpleButton {
+	background-color: purple;
+	border: 1px solid white;
+}
+
+#objectParent {
+	height: 95%;
+	width: 90%;
+	position: absolute;
+}
+
+#canvasDiv {
+	height: 100%;
+	width: 90%;
+	border: 10px solid gray;
+	position: absolute;
+}
+
+#textBox {
+	height: 100%;
+	width: 90%;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	cursor: text;
+	outline: none;
+}
+
+#tempCanvas {
+	position: absolute;
+	left: 0px; right: 0px;
+	bottom: 0px; top: 0px;
+	cursor: crosshair;
+}
+
+#textButton{
+	background-color: #00688B;
+}
+
+#drawCrayonButton{
+	background-color: #00688B;
+}
+
+#saveButton{
+	background-color: gray;
+	font-size: 37px;
+	color: #E0E0E0;
+	text-align: center;
+	border: 1px solid white;
+	height: 46px;
+	width: 46px;
+	position: relative;
+}
+
+#delete{
+	color:red;
+}
+
+.text {
+	background-color: gray;
+	font-size: 37px;
+	color: #E0E0E0;
+	text-align: center;
+	border: 1px solid white;
+}
+
+.svg {
+	background-color: gray;
+	font-size: 11px;
+	color: #E0E0E0;
+	text-align: center;
+	border: 1px solid white;
+}
+
+.secret {
+	display: none;
+}
