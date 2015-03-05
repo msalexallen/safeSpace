@@ -2,6 +2,7 @@ var dashCont = null;
 var fs = require('fs');
 var sys = require('sys');
 var sqlite3 = require('sqlite3').verbose();
+var mkdirp = require('mkdirp');
 
 module.exports = function(app, passport) {
 
@@ -24,11 +25,57 @@ module.exports = function(app, passport) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 
-	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/password',
-		failureRedirect : '/signup',
-		failureFlash : true
-	}));
+	app.post('/signup', function(req,res) {
+		console.log(req.body.passwordImg);
+		user = req.body.username;
+		passShapes = req.body.content;
+		var img = req.body.image;
+
+		var data = img.replace(/^data:image\/\w+;base64,/, "");
+		var buf = new Buffer(data, 'base64');
+
+		mkdirp("./views/userFiles/"+user+"/", function (err) {
+            if (err) 
+                console.log(err)
+        });
+		fs.open('./views/userFiles/'+user+'/passImg.png', "w");
+		
+		//write the info
+		fs.writeFileSync('./views/userFiles/'+user+'/passImg.png', buf);
+
+		res.redirect('/login');
+	});
+
+	// app.post('/signup', function(req, res) {
+	// 	var tempPath = req.files.image.path,
+ //        targetPath = path.resolve('./uploads/image.png');
+	//     if (path.extname(req.files.image.name).toLowerCase() === '.png') {
+	//         fs.rename(tempPath, targetPath, function(err) {
+	//             if (err) throw err;
+	//             console.log("Upload completed!");
+	//         });
+	//     } else {
+	//         fs.unlink(tempPath, function () {
+	//             if (err) throw err;
+	//             console.error("Only .png files are allowed!");
+	//         });
+	//     }
+	// 	//console.log(JSON.stringify(req.files));
+	// 	// user = req.body.username;
+	// 	// //data = req.body.passImg;
+	// 	passShapes = req.body.finalSquares;
+	// 	mkdirp("./views/"+user+"/", function (err) {
+ //            if (err) 
+ //                console.log(err)
+ //        });
+	// 	fs.open('./views/'+user+'/birdIsTheWord.png', "w");
+	// 	fs.readFileSync(req.files.passImg.path, function (err, data) {
+	// 		fs.writeFileSync('./views/'+user+'/birdIsTheWord.png', data);
+	// 	})
+	// 	//console.log(data);
+	// 	//fs.writeFileSync('./views/'+user+'/birdIsTheWord.png', data);
+	// 	res.redirect('/login');
+	// });
 
 	app.get('/password', isLoggedIn, function(req, res) {
 		dashCont = null;

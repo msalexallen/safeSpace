@@ -60,7 +60,31 @@ $(function () {
 });
 
 function imageIsLoaded(e) {
+    document.getElementById('canvasDiv').style.display = 'block';
+    console.log(document.getElementById('canvasDiv').clientWidth);
+    document.getElementById('editableCanvas').width = document.getElementById('canvasDiv').clientWidth;	
+    document.getElementById('tempCanvas').width = document.getElementById('canvasDiv').clientWidth;	
+    //document.getElementById('tempCanvas').height = document.getElementById('canvasDiv').clientHeight;	
     $('#myImg').attr('src', e.target.result);
+    //document.getElementById('myImg').height = document.getElementById('myImg').height*.25;
+    if (document.getElementById('myImg').height > 500){
+    	var resizeCanvas = document.createElement('canvas');
+    	var resizeContext = resizeCanvas.getContext('2d');
+    	resizeCanvas.height = 500;
+    	resizeCanvas.width = (document.getElementById('myImg').width/document.getElementById('myImg').height)*500;
+    	resizeContext.drawImage(document.getElementById('myImg'),0,0, resizeCanvas.width, resizeCanvas.height);
+    	$('#myImg').attr('src', resizeCanvas.toDataURL());
+    	//document.getElementById('myImg')
+    }
+    var storageCanvas = document.createElement('canvas');
+    var storageContext = storageCanvas.getContext('2d');
+    storageCanvas.width = document.getElementById('myImg').width;
+   	storageCanvas.height = document.getElementById('myImg').height;
+    storageContext.drawImage(document.getElementById('myImg'),0,0);
+    passImg.value = storageCanvas.toDataURL();
+    
+
+    document.querySelector('#editableCanvas').getContext('2d').drawImage(myImg,0,0);
 };
 
 window.addEventListener('load', function() {
@@ -71,11 +95,14 @@ window.addEventListener('load', function() {
 	//Give it the same features as its enclosing div
 	var drawing1 = document.querySelector('#canvasDiv');
 	var drawingStyle = getComputedStyle(drawing1);
+
 	canvas.width = parseInt(drawingStyle.getPropertyValue('width'));
 	canvas.height = parseInt(drawingStyle.getPropertyValue('height'));
 	
 	var crayonPoints = [];
+	var squares = [];
 	var drawColor = 'blue';
+	var op = 0;
 
 	// Make a temporary canvas (same feats as canvas) to store the changes before they 
 	// get added to the final document ex sample lines with the line tool before you release the mouse
@@ -91,19 +118,29 @@ window.addEventListener('load', function() {
 	var img = myImg;
 	//img.src = "temp.png"
 	img.onload = function () {
-	   context.drawImage(img,0,0);
+	    context.drawImage(img,0,0);
     	canvas.height = img.height;
+    	tempCanvas.height = img.height;
     	o1 = img.width - canvas.width;
     	render();
 	}
 
 	function render(){
 	    context.clearRect(0,0,canvas.width, canvas.height);
-	    var op = Math.max(offset-o1, 0);
+	    tempContext.clearRect(0, 0, tempContext.canvas.width, tempContext.canvas.height);
+	    op = Math.max(offset-o1, 0);
 	    context.drawImage(img, offset, 0, canvas.width-op, img.height, 0, 0, canvas.width-op, img.height)
 	    context.drawImage(img,0,0,op, img.height,canvas.width-op ,0,op,img.height);
 
+	    for (i = 0; i < squares.length; i++) {
+	    	tempContext.strokeRect(squares[i].x-offset, squares[i].y, squares[i].w, squares[i].h);
+			if (op != 0){
+				tempContext.strokeRect(squares[i].x+canvas.width-op, squares[i].y, squares[i].w, squares[i].h);
+			}
+		}
+		finalSquares.value = JSON.stringify(squares);
 	}
+		//tempContext.stroke();
 	
 	drawing1.appendChild(tempCanvas);
 
@@ -117,7 +154,7 @@ window.addEventListener('load', function() {
 	}, false);
 	
 	// Set initial values for the temporary canvas's drawing tools
-	tempContext.lineWidth = 5;
+	tempContext.lineWidth = 3;
 	tempContext.lineJoin = 'round';
 	tempContext.lineCap = 'round';
 	tempContext.strokeStyle = drawColor;
@@ -126,6 +163,11 @@ window.addEventListener('load', function() {
 	// Add a listener to the temporary canvas for when the mouse is down
 	tempCanvas.addEventListener('mousedown', function(e) {
 		// While the mouse is down and moving, add the changes to the temporary canvas
+
+		tempContext.lineWidth = 3;
+		context.lineWidth = 3;
+		tempContext.strokeStyle = drawColor;
+		context.strokeStyle = drawColor;
 		tempCanvas.addEventListener('mousemove', onPaint, false);
 		
 		// Get the x and y of the mouse where it is down
@@ -146,12 +188,24 @@ window.addEventListener('load', function() {
 		tempCanvas.removeEventListener('mousemove', onPaint, false);
 		
 		// Now take what is on the temporary canvas and add it to the final canvas
-		context.drawImage(tempCanvas, 0, 0);
+		//context.drawImage(tempCanvas, 0, 0);
 		// Clearing tmp canvas
 		//tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
 		
 		// Remove the old crayon points from the list
+		x1Point = crayonPoints[0].x + offset;
+		if (x1Point > img.width){
+			x1Point = x1Point - img.width;
+		}
+		squares.push({x: x1Point, y: crayonPoints[0].y, 
+			w: crayonPoints[crayonPoints.length - 1].x - crayonPoints[0].x , 
+			h: crayonPoints[crayonPoints.length - 1].y - crayonPoints[0].y});
 		crayonPoints = [];
+		// console.log(squares[squares.length -1].x1);
+		// console.log(squares[squares.length -1].y1);
+		// console.log(squares[squares.length -1].x2);
+		// console.log(squares[squares.length -1].y2);
+		render();
 
 		//Temporarily save the canvas
 		//saveImage.value = canvas.toDataURL();
@@ -166,6 +220,12 @@ window.addEventListener('load', function() {
 		
 		// Clear the temporary canvas now that another change has been added
 		tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+	    for (i = 0; i < squares.length; i++) {
+	    	tempContext.strokeRect(squares[i].x-offset, squares[i].y, squares[i].w, squares[i].h);
+			if (op != 0){
+				tempContext.strokeRect(squares[i].x+canvas.width-op, squares[i].y, squares[i].w, squares[i].h);
+			}
+		}
 		
 		// Begin the path at the initial crayon location
 		tempContext.beginPath();
@@ -198,23 +258,3 @@ window.addEventListener('load', function() {
 	}	
 
 }, false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
