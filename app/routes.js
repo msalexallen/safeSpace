@@ -11,6 +11,19 @@ module.exports = function(app, passport) {
 		res.render('index.ejs');
 	});
 
+	//Get user allows us to authenticate the user before 
+	// we redirect to the password login
+	app.get('/login/username', function(req, res) {
+		res.render('getun.ejs', { message: req.flash('loginMessage') }); 
+	});
+
+	app.post('/login/username', function(req,res) {
+		req.user = req.body.username;
+
+		res.redirect('/login');
+	});
+
+	//Login handles serving the image and validating the entered points
 	app.get('/login', function(req, res) {
 		res.render('login.ejs', { message: req.flash('loginMessage') }); 
 	});
@@ -21,13 +34,28 @@ module.exports = function(app, passport) {
 		failureFlash : true
 	}));
 
-	app.get('/signup', function(req, res) {
+	//Username handles checking username for valid text and uniqueness
+	app.get('/signup/username', function(req, res) {
+		res.render('createun.ejs', { message: req.flash('signupMessage') });
+	});
+
+	app.post('/signup/username', function(req,res) {
+		user = req.body.username;
+		req.session.username = user;
+
+		res.redirect('/signup/passimg');
+	});
+
+	//Sign up handles the password image saving, the database entries, and
+	//evaluating the password (that one was given)
+	app.get('/signup/passimg', function(req, res) {
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 
-	app.post('/signup', function(req,res) {
+	app.post('/signup/passimg', function(req,res) {
 		console.log(req.body.passwordImg);
-		user = req.body.username;
+		user = req.session.username;
+		console.log(user);
 		passShapes = req.body.content;
 		var img = req.body.image;
 
@@ -43,114 +71,20 @@ module.exports = function(app, passport) {
 		//write the info
 		fs.writeFileSync('./views/userFiles/'+user+'/passImg.png', buf);
 
-		res.redirect('/login');
+		req.session.username = null;
+		res.redirect('/signup/success');
 	});
 
-	// app.post('/signup', function(req, res) {
-	// 	var tempPath = req.files.image.path,
- //        targetPath = path.resolve('./uploads/image.png');
-	//     if (path.extname(req.files.image.name).toLowerCase() === '.png') {
-	//         fs.rename(tempPath, targetPath, function(err) {
-	//             if (err) throw err;
-	//             console.log("Upload completed!");
-	//         });
-	//     } else {
-	//         fs.unlink(tempPath, function () {
-	//             if (err) throw err;
-	//             console.error("Only .png files are allowed!");
-	//         });
-	//     }
-	// 	//console.log(JSON.stringify(req.files));
-	// 	// user = req.body.username;
-	// 	// //data = req.body.passImg;
-	// 	passShapes = req.body.finalSquares;
-	// 	mkdirp("./views/"+user+"/", function (err) {
- //            if (err) 
- //                console.log(err)
- //        });
-	// 	fs.open('./views/'+user+'/birdIsTheWord.png', "w");
-	// 	fs.readFileSync(req.files.passImg.path, function (err, data) {
-	// 		fs.writeFileSync('./views/'+user+'/birdIsTheWord.png', data);
-	// 	})
-	// 	//console.log(data);
-	// 	//fs.writeFileSync('./views/'+user+'/birdIsTheWord.png', data);
-	// 	res.redirect('/login');
-	// });
-
-	app.get('/password', isLoggedIn, function(req, res) {
-		dashCont = null;
-		res.render('dashboard.ejs', { user : req.user });
+	//A success page 
+	app.get('/signup/success', function(req, res) {
+		res.render('signupsuccess.ejs');
 	});
 
-	app.post('/password', isLoggedIn, function(req, res) {
-		dashCont = "/userfiles/"+user.name+"/"+req.body.note+".ejs";
-		res.redirect('/note');
-	});
-
-	app.post('/delete', isLoggedIn, function(req, res) {
-		console.log(req.body.note);
-		userData = new sqlite3.Database("./views/userfiles/"+user.name+"/userFiles.db");
-		userData.all("DELETE FROM notes WHERE name = '"+req.body.note+"'");
-		fs.unlink("./views/userfiles/"+user.name+"/"+req.body.note+".html");
-		fs.unlink("./views/userfiles/"+user.name+"/"+req.body.note+".png");
-		res.redirect('/dashboard');
-	});
-
-	app.get('/note', isLoggedIn, function(req, res) {
-		if (dashCont){
-			req.user.current = dashCont;
-			fs.writeFileSync("./public/temp.png", fs.readFileSync('./views'+dashCont.slice(0, dashCont.length-4)+'.png'));
-			fs.open('./views'+dashCont.slice(0, dashCont.length-4)+'.html', "r");
-			fs.readFile('./views'+dashCont.slice(0, dashCont.length-4)+'.html', 'utf8', function read(err, html) {
-    			if (err) {
-        		throw err;
-    			}
-    			console.log('here');
-    			console.log(html);
-    			req.user.text = html;
-				res.render('notes.ejs', { user: req.user });
-    		});
-		} else {
-			fs.writeFileSync("./public/temp.png", fs.readFileSync('./views/default.png'));
-			req.user.text = 'Add text here!';
-			dashCont = req.user.current;
-			res.render('notes.ejs', { user: req.user });
-		}
-	});
-
-	app.post('/note', isLoggedIn, function(req, res) {
-		console.log(req.body);
-		var img = req.body.image;
-		var text = req.body.content;
-		var data = img.replace(/^data:image\/\w+;base64,/, "");
-		var buf = new Buffer(data, 'base64');
-
-		//Open the files to save the info
-		fs.open('./views'+dashCont.slice(0, dashCont.length-4)+'.png', "w");
-		fs.open('./views'+dashCont.slice(0, dashCont.length-4)+'.html', "w");
-		
-		//write the info
-		fs.writeFile('./views'+dashCont.slice(0, dashCont.length-4)+'.png', buf);
-		fs.writeFile('./views'+dashCont.slice(0, dashCont.length-4)+'.html', text);
-
-		res.redirect('/note');
-	});
-
-	app.get('/createnote', isLoggedIn, function(req, res) {
-		res.render('createnote.ejs', { message: req.flash('createMessage') });
-	});
-
-	app.post('/createnote', passport.authenticate('newnote', {
-		successRedirect : '/note',
-		failureRedirect : '/createnote',
-		failureFlash : true
-	}));
-
-	app.get('/logout', function(req, res) {
-		req.logout();
+	app.post('/signup/success', function(req, res) {
 		res.redirect('/');
 	});
-};
+
+}
 
 function isLoggedIn(req, res, next) {
 

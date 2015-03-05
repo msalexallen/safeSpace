@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="/css/formstyle.css">
 	<script type='text/javascript' src='/javascript/jquery.js'></script>
 	<script type='text/javascript' src='/javascript/animate.js'></script> 
+	<script type='text/javascript' src='/javascript/imagehandler.js'></script> 
 </head>
 <body>
 <div id="parent">
@@ -16,11 +17,7 @@
 			<div class="message"><%= message %></div>
 		<% } %>
 
-		<form action="/signup" method="post">
-			<div class="formCont">
-				<label>Username</label>
-				<input type="text" name="username">
-			</div>
+		<form action="/signup/passimg" method="post">
 			<br>
 			<input type='file' name='passwordImg'/>
 			<div id="canvasDiv">
