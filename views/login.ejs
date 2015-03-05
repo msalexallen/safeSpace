@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
-	<title>Login</title>
+	<title>Sign Up</title>
 	<link rel="stylesheet" href="/css/formstyle.css">
 	<script type='text/javascript' src='/javascript/jquery.js'></script>
 	<script type='text/javascript' src='/javascript/animate.js'></script> 
+	<script type='text/javascript' src='/javascript/imageserve.js'></script> 
 </head>
 <body>
 <div id="parent">
@@ -16,21 +17,18 @@
 			<div class="message"><%= message %></div>
 		<% } %>
 
-		<form action="/login" method="post">
-			<div class="formCont">
-				<label>Username</label>
-				<input type="text" name="username">
-			</div>
-			<div class="formCont">
-				<label>Password</label>
-				<input type="password" name="password">
-			</div>
-			<button type="submit" class="button">Login</button>
+		<form action="/login/passimg" method="post">
+			<br>
+			<div id="canvasDiv">
+				<canvas id="editableCanvas"> We're sorry, but the browser you are using does not support HTML5, which is integral to the function of this site. Please try updating your browser or switching to a supported browser like Chrome or Firefox.</canvas>
+			<img id="myImg" src="/login/image.png" alt="Error serving image" />
+			<input type="text" id="passPoints" class="secret" name="content"></input>
+	    	</div>
+			<button type="submit" class="button">Sign Up</button>
 		</form>
 
 	</div>
-	<p><br><br><br></p>
-	<p>Don't have an account? <a href="/signup">Sign Up</a></p>
+	<p><br><br><br><br></p>
 	<p>Oops? <a href="/">Launch Page</a></p>
 </div>
 
