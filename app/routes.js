@@ -52,8 +52,8 @@ module.exports = function(app, passport) {
 	app.get('/login/image.png', function(req, res) {
 		user = req.session.username;
 		if (user != null){
-			//res.sendfile('./userFiles/'+user+'/passImg.png');
-			res.end('./userFiles/'+user+'/passImg.png', 'binary');
+			res.sendfile('./userFiles/'+user+'/passImg.png');
+			//res.end('./userFiles/'+user+'/passImg.png', 'binary');
 		}
 		else{
 			res.render('getun.ejs', { message: 'Please enter your username before your password.' });
