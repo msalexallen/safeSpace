@@ -2,8 +2,8 @@
 *~
 
 #ignore directories:
-./node_modules
-./userFiles
+./node_modules/
+./userFiles/
 
 #ignore the users list
 userDatabase.db

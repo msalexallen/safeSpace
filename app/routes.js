@@ -69,7 +69,9 @@ module.exports = function(app, passport) {
 	app.post('/login/passimg', function(req,res) {
 		user = req.session.username;
 		pass = req.session.password;
+		console.log(pass)
 		passPoints = req.body.content;
+		console.log(passPoints)
 		if ((user != null) && (pass != null)){
 			pass = JSON.parse(pass);
 			passPoints = JSON.parse(passPoints);

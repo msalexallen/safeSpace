@@ -61,7 +61,7 @@ window.addEventListener('load', function() {
 	}, false);
 	
 	// Add a listener to the temporary canvas for when the mouse is down
-	tempCanvas.addEventListener('mouseclick', function(e) {
+	tempCanvas.addEventListener('mousedown', function(e) {
 
 		// Get the x and y of the mouse where it is down
 		mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
@@ -73,6 +73,7 @@ window.addEventListener('load', function() {
 			x1Point = x1Point - img.width;
 		}
 		squares.push({x: x1Point, y: mouse.y});
+		passPoints.value = JSON.stringify(squares);
 
 	}, false);
 

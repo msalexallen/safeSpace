@@ -11,6 +11,7 @@ require('./config/passport')(passport);
 app.configure(function() {
 
 	//MUST BE THIS ORDER FOR APP STUFF!!
+	app.use(express.limit('400mb'));
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser());
 	app.use(express.bodyParser());
