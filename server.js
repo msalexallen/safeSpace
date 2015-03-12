@@ -6,8 +6,6 @@ var passport = require('passport');
 var flash 	 = require('connect-flash');
 var path = require('path');
 
-require('./config/passport')(passport);
-
 app.configure(function() {
 
 	//MUST BE THIS ORDER FOR APP STUFF!!
@@ -20,8 +18,6 @@ app.configure(function() {
 	app.set('view engine', 'ejs');
 
 	app.use(express.session({ secret: 'sssssshtellnobody' }));
-	app.use(passport.initialize());
-	app.use(passport.session()); 
 	app.use(flash());
 	app.use(app.router);
 
