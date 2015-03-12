@@ -1,0 +1,9 @@
+#NO TEMP FILES
+*~
+
+#node isn't needed
+./node_modules
+
+#no user stuff
+./userFiles
+./userDatabase.db
