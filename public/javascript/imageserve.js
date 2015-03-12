@@ -1,4 +1,7 @@
 window.addEventListener('load', function() {
+	document.getElementById('canvasDiv').style.display = 'block';
+	//document.getElementById('editableCanvas').width = document.getElementById('canvasDiv').clientWidth;	
+	//document.getElementById('tempCanvas').width = document.getElementById('canvasDiv').clientWidth;
 	// Get the context of the editable canvas in the html
 	var canvas = document.querySelector('#editableCanvas');
 	var context = canvas.getContext('2d');
@@ -6,7 +9,7 @@ window.addEventListener('load', function() {
 	//Give it the same features as its enclosing div
 	var drawing1 = document.querySelector('#canvasDiv');
 	var drawingStyle = getComputedStyle(drawing1);
-
+	
 	canvas.width = parseInt(drawingStyle.getPropertyValue('width'));
 	canvas.height = parseInt(drawingStyle.getPropertyValue('height'));
 	
@@ -26,14 +29,14 @@ window.addEventListener('load', function() {
 	var offset = 0;
 	var img = myImg;
 
-	img.change = function () {
+	//img.onload = function () {
 		console.log(img.height);
 	    context.drawImage(img,0,0);
     	canvas.height = img.height;
     	tempCanvas.height = img.height;
     	o1 = img.width - canvas.width;
     	render();
-	}
+	//}
 
 	function render(){
 	    context.clearRect(0,0,canvas.width, canvas.height);

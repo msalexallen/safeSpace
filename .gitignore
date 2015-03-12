@@ -1,0 +1,9 @@
+#ignore emacs temp files
+*~
+
+#ignore directories:
+./node_modules
+./userFiles
+
+#ignore the users list
+userDatabase.db

@@ -62,6 +62,7 @@ module.exports = function(app, passport) {
 
 	//Login handles serving the image and validating the entered points
 	app.get('/login/passimg', function(req, res) {
+		//res.sendfile
 		res.render('login.ejs', { message: req.flash('loginMessage') }); 
 	});
 
@@ -111,6 +112,12 @@ module.exports = function(app, passport) {
 	                	req.flash('signupMessage', 'That username is already in use.') });
 	            } else {
 					req.session.username = user;
+					//Create the file and directory to store the image files
+					//on the server and fill the file from the buffer
+					mkdirp("./userFiles/"+user+"/", function (err) {
+					if (err) 
+					    console.log(err)
+					});
 					res.redirect('/signup/passimg');
 				}
 			});
@@ -139,12 +146,6 @@ module.exports = function(app, passport) {
 				var data = img.replace(/^data:image\/\w+;base64,/, "");
 				var buf = new Buffer(data, 'base64');
 
-				//Create the file and directory to store the image files
-				//on the server and fill the file from the buffer
-				mkdirp("./userFiles/"+user+"/", function (err) {
-		            if (err) 
-		                console.log(err)
-		        });
 				fs.open('./userFiles/'+user+'/passImg.png', "w");
 				fs.writeFileSync('./userFiles/'+user+'/passImg.png', buf);
 		        
@@ -162,7 +163,7 @@ module.exports = function(app, passport) {
 			}
 		}
 		else{
-			es.render('createun.ejs', { message: 'Set a username before creating a password.' });
+			res.render('createun.ejs', { message: 'Set a username before creating a password.' });
 		}
 	});
 

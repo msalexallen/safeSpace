@@ -36,6 +36,22 @@ function imageIsLoaded(e) {
     document.querySelector('#editableCanvas').getContext('2d').drawImage(myImg,0,0);
 };
 
+function submitMe() {
+    
+    var storageCanvas = document.createElement('canvas');
+    var storageContext = storageCanvas.getContext('2d');
+    storageCanvas.width = document.getElementById('myImg').width;
+   	storageCanvas.height = document.getElementById('myImg').height;
+    storageContext.drawImage(document.getElementById('myImg'),0,0);
+    $.post("/signup/passimg", 
+	{image: storageCanvas.toDataURL(),
+	content: document.getElementById("finalSquares").value
+	}
+    ).success(function(data){
+	window.location = "/signup/success";
+	});
+}
+
 window.addEventListener('load', function() {
 	// Get the context of the editable canvas in the html
 	var canvas = document.querySelector('#editableCanvas');
