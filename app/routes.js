@@ -77,11 +77,7 @@ module.exports = function(app, passport) {
 
 			if (pass.length == passPoints.length){
 				for (i = 0; i < pass.length; i++) {
-					console.log(pass[i])
-					console.log(passPoints[i])
 					if (!isValid(passPoints[i], pass[i], imWidth)) {
-						console.log("here, failed")
-						console.log(isValid(passPoints[i], pass[i], imWidth))
 						res.render('login.ejs', { message: 'Invalid password.' });
 					}
 				}
