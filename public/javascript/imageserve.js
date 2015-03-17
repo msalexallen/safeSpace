@@ -28,6 +28,7 @@ window.addEventListener('load', function() {
 	var o1 =0;
 	var offset = 0;
 	var img = myImg;
+	thisWidth.value = img.width;
 
 	//img.onload = function () {
 		console.log(img.height);

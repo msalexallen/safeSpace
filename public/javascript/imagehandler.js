@@ -158,13 +158,30 @@ window.addEventListener('load', function() {
 		//tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
 		
 		// Remove the old crayon points from the list
-		x1Point = crayonPoints[0].x + offset;
+
+		//handle getting the point order right
+		xL = crayonPoints[0].x
+		xR = crayonPoints[crayonPoints.length - 1].x
+		yT = crayonPoints[0].y
+		yB = crayonPoints[crayonPoints.length - 1].y
+		if (xR < xL){
+			t = xR
+			xR = xL
+			xL = t
+		}
+		if (yB > yT) {
+			t = yB
+			yB = yT
+			yT = t
+		}
+
+		x1Point = xL + offset;
 		if (x1Point > img.width){
 			x1Point = x1Point - img.width;
 		}
-		squares.push({x: x1Point, y: crayonPoints[0].y, 
-			w: crayonPoints[crayonPoints.length - 1].x - crayonPoints[0].x , 
-			h: crayonPoints[crayonPoints.length - 1].y - crayonPoints[0].y});
+		squares.push({x: x1Point, y: yT, 
+			w: xR - xL, 
+			h: yB - yT});
 		crayonPoints = [];
 		// console.log(squares[squares.length -1].x1);
 		// console.log(squares[squares.length -1].y1);

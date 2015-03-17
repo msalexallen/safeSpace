@@ -70,18 +70,20 @@ module.exports = function(app, passport) {
 		user = req.session.username;
 		pass = req.session.password;
 		passPoints = req.body.content;
+		imWidth = req.body.width;
 		if ((user != null) && (pass != null)){
 			pass = JSON.parse(pass);
 			passPoints = JSON.parse(passPoints);
 
 			if (pass.length == passPoints.length){
 				for (i = 0; i < pass.length; i++) {
-					if (!((pass[i].x <= passPoints[i].x) && 
-						(passPoints[i].x <= (pass[i].w + pass[i].x))) ||
-						!((pass[i].y <= passPoints[i].y) && 
-						(passPoints[i].y <= (pass[i].h + pass[i].y)))){
+					console.log(pass[i])
+					console.log(passPoints[i])
+					if (!isValid(passPoints[i], pass[i], imWidth)) {
+						console.log("here, failed")
+						console.log(isValid(passPoints[i], pass[i], imWidth))
 						res.render('login.ejs', { message: 'Invalid password.' });
-					} 
+					}
 				}
 				res.redirect('/login/success');
 			}
@@ -187,4 +189,45 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
+	function isValid(point, region, imgWidth){
+		//first check if this is a "seam" region
+		if ((region.w + region.x) > imgWidth){
+			if (((point.x >= 0) && (point.x <= ((region.w + region.x) - imgWidth))) ||
+				((point.x <= imgWidth) && (point.x >= region.x))){
+				if ((region.y >= point.y) && (point.y >= (region.h + region.y))){
+					return true;
+				}
+			}
+			return false;
+		}
+		//support all start corners for squares FIXED! Only one possible
+		//directionality
+		if (((region.x <= point.x) && 
+			(point.x <= (region.w + region.x))) &&
+			((region.y >= point.y) && 
+			(point.y >= (region.h + region.y)))){
+				return true;
+		}
+		return false;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
