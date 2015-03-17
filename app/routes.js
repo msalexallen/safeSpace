@@ -69,17 +69,17 @@ module.exports = function(app, passport) {
 	app.post('/login/passimg', function(req,res) {
 		user = req.session.username;
 		pass = req.session.password;
-		console.log(pass)
 		passPoints = req.body.content;
-		console.log(passPoints)
 		if ((user != null) && (pass != null)){
 			pass = JSON.parse(pass);
 			passPoints = JSON.parse(passPoints);
 
 			if (pass.length == passPoints.length){
 				for (i = 0; i < pass.length; i++) {
-					if (!(pass[i].x <= passPoints[i].x <= (pass[i].w + pass[i].x)) ||
-						!(pass[i].y <= passPoints[i].y <= (pass[i].h + pass[i].y))){
+					if (!((pass[i].x <= passPoints[i].x) && 
+						(passPoints[i].x <= (pass[i].w + pass[i].x))) ||
+						!((pass[i].y <= passPoints[i].y) && 
+						(passPoints[i].y <= (pass[i].h + pass[i].y)))){
 						res.render('login.ejs', { message: 'Invalid password.' });
 					} 
 				}
