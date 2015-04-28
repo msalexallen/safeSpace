@@ -9,10 +9,14 @@ $(function () {
 });
 
 function imageIsLoaded(e) {
+	//if(document.getElementById('myImg').width < document.getElementById('myImg').height*1.5){
+	//	alert("Please choose an image with a 1.7/1 width height ratio");
+	//	return
+	//}
+
     document.getElementById('canvasDiv').style.display = 'block';
     console.log(document.getElementById('canvasDiv').clientWidth);
-    document.getElementById('editableCanvas').width = document.getElementById('canvasDiv').clientWidth;	
-    document.getElementById('tempCanvas').width = document.getElementById('canvasDiv').clientWidth;	
+
     //document.getElementById('tempCanvas').height = document.getElementById('canvasDiv').clientHeight;	
     $('#myImg').attr('src', e.target.result);
     //document.getElementById('myImg').height = document.getElementById('myImg').height*.25;
@@ -25,6 +29,8 @@ function imageIsLoaded(e) {
     	$('#myImg').attr('src', resizeCanvas.toDataURL());
     	//document.getElementById('myImg')
     }
+    document.getElementById('editableCanvas').width = Math.min(document.getElementById('canvasDiv').clientWidth, document.getElementById('myImg').width);	
+    document.getElementById('tempCanvas').width = document.getElementById('canvasDiv').clientWidth;	
     var storageCanvas = document.createElement('canvas');
     var storageContext = storageCanvas.getContext('2d');
     storageCanvas.width = document.getElementById('myImg').width;

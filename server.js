@@ -12,7 +12,7 @@ app.configure(function() {
 	app.use(express.limit('400mb'));
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser());
-	app.use(express.bodyParser());
+	app.use(express.bodyParser({limit: '400mb'}));
 	app.use(express.static(path.join(__dirname, 'public')));
 
 	app.set('view engine', 'ejs');

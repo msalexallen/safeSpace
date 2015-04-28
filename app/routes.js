@@ -178,6 +178,7 @@ module.exports = function(app, passport) {
 
 	//A success page for login
 	app.get('/login/success', function(req, res) {
+		console.log("succesful login");
 		res.render('signupsuccess.ejs');
 	});
 
