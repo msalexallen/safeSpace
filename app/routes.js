@@ -17,6 +17,7 @@ module.exports = function(app, passport) {
 		req.session.password = null;
 	});
 
+
 	//Get user allows us to authenticate the user before 
 	// we redirect to the password login
 	app.get('/login/username', function(req, res) {
@@ -126,6 +127,10 @@ module.exports = function(app, passport) {
 		}
 	});
 
+	app.get('/signup/instructions', function(req,res){
+		res.render('instructions.ejs', { message: req.flash('signupMessage') });
+	});
+
 	//Sign up handles the password image saving, the database entries, and
 	//evaluating the password (that one was given)
 	app.get('/signup/passimg', function(req, res) {
@@ -178,7 +183,6 @@ module.exports = function(app, passport) {
 
 	//A success page for login
 	app.get('/login/success', function(req, res) {
-		console.log("succesful login");
 		res.render('signupsuccess.ejs');
 	});
 

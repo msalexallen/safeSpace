@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<title>SafeSpace</title>
+	<link rel="stylesheet" href="/css/formstyle.css">
+	<script type='text/javascript' src='/javascript/jquery.js'></script>
+	<script type='text/javascript' src='/javascript/animate.js'></script>
+</head>
+<body>
+<div id="parent">
+	<div>
+
+		<h1>Sign Up</h1>
+
+		<% if (message.length > 0) { %>
+			<div class="message"><%= message %></div>
+		<% } %>
+
+		<form action="/signup/passimg" method="post">
+			<br>
+			<input type='file' accept='image/*' name='passwordImg'/>
+			<div id="canvasDiv">
+				<canvas id="editableCanvas"> We're sorry, but the browser you are using does not support HTML5, which is integral to the function of this site. Please try updating your browser or switching to a supported browser like Chrome or Firefox.</canvas>
+			<img id="myImg" src="#" alt="your image" />
+			<input type="text" id="finalSquares" class="secret" name="content"></input>
+			<input type="data" id="passImg" class="secret" name="image"></input>
+	    	</div>
+			<button type="button" onclick="submitMe()" class="button">Sign Up</button>
+		</form>
+
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<p>Oops? <a href="/">Launch Page</a></p>
+</div>
+
+</body>
+</html>

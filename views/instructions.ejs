@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<title>SafeSpace</title>
+	<link rel="stylesheet" href="/css/formstyle.css">
+	<script type='text/javascript' src='/javascript/jquery.js'></script>
+	<script type='text/javascript' src='/javascript/animate.js'></script>
+</head>
+<body>
+<div id="parent">
+	<div>
+
+		<h1>Instructions</h1>
+
+		<% if (message.length > 0) { %>
+			<div class="message"><%= message %></div>
+		<% } %>
+
+		<h3>
+			When registering an account there are two stages </br> 
+			selecting a username and setting the image password
+		</h3>
+		<p>
+			On the first page, enter a user name and press continue.
+			If the username is taken, it will ask you to choose a new one.
+		</p>
+		<p>
+			When the page advances, you be asked to choose an image from your computer.
+		</p><p> This image will be displayed onscreen.</p>
+		<p>You can pan horizontally though it using the arrow keys. </p>
+<p>
+			 Click on the image to mark out the click regions for the password,
+			 clicking and dragging will create a blue rectangle which shows
+			 the click region. 
+			</p><p>To enter the password, you will have to click inside
+			 the rectangles you mark, so make sure to choose memorable points.
+
+			 Your password will be order sensitive
+			 (you must click regions in the order you created them)
+
+		</p>
+		<p>
+			When choosing your image we would prefer if you choose a wide panorma, like can be acquired with almsot any modern phone, but any image will work.s
+		</p>
+		<a href="/signup/username"><div class="button">Sign Up</div></a>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<p>Oops? <a href="/">Launch Page</a></p>
+</div>
+
+</body>
+</html>
